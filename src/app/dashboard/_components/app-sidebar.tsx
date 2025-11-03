@@ -20,16 +20,9 @@ import {
 } from "@/components/ui/sidebar"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
+import { authClient } from "@/lib/auth-client"
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-
-  navMain: [
+const navMain = [
     {
       title: "Playground",
       url: "/",
@@ -61,11 +54,21 @@ const data = {
         },
       ],
     },
-  ],
- 
-}
+]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = authClient.useSession();
+  
+  const user = session?.user ? {
+    name: session.user.name || "",
+    email: session.user.email || "",
+    avatar: session.user.image || "",
+  } : {
+    name: "",
+    email: "",
+    avatar: "",
+  };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -77,17 +80,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <AnvilIcon className="size-5!" />
-                <span className="text-base font-semibold">HackerWrath</span>
+                <span className="text-base font-semibold">Project Name {/* TODO: add project name */}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

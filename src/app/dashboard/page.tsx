@@ -3,9 +3,11 @@ import { getQueryClient, trpc } from '@/trpc/server';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
 import { TestUser } from './test-user';
+import { requireAuth } from '@/lib/auth-utils';
 
 
 export default async function Home() {
+  await requireAuth();
   
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(

@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { authClient } from "@/lib/auth-client"
 
 export function NavUser({
     user,
@@ -78,7 +79,18 @@ export function NavUser({
                         </DropdownMenuLabel>
 
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem> 
+                        <DropdownMenuItem onClick={async () => {
+                            await authClient.signOut({
+                                fetchOptions: {
+                                    onSuccess: () => {
+                                        router.push("/register")
+                                    },
+                                    onError: () => {
+                                        toast.error("Failed to log out")
+                                    }
+                                },
+                            })
+                        }}>
                             <LogOutIcon />Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>
