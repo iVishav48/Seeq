@@ -1,33 +1,84 @@
-import { inngest } from "./client";
 import { createOpenAI } from "@ai-sdk/openai";
-
-import { generateText } from "ai";
+import { generateObject } from "ai";
+import { z } from "zod";
+import { inngest } from "./client";
+import { IMAGE_ANALYSIS_SYSTEM_PROMPT, type ImageAnalysisResult } from "@/lib/ai/prompts";
+import prisma from "@/lib/prisma";
 
 const openai = createOpenAI();
 
+export const analyzeImageFn = inngest.createFunction(
+  { id: "analyze-image" },
+  { event: "image/analyze" },
+  async ({ event, step }) => {
+    const { analysisId, imageData, userPrompt } = event.data;
 
-export const execute = inngest.createFunction(
-    { id: "execute-ai" },
-    { event: "execute/ai" },
-    async ({ event, step }) => {
-
-
-        const { steps: openaiSteps } = await step.ai.wrap(
-            "openai-generate-text",
-            generateText,
-            {
-                model: openai("gpt-4.1"),
-                system: "You are a helpful assistant",
-                prompt: "what is 2+2",
-                experimental_telemetry: {
-                    isEnabled: true,
-                    recordInputs: true,
-                    recordOutputs: true,
-                }
-            }
-        );
-        return {
-            openaiSteps,
-        }
+    if (!analysisId) {
+      throw new Error("analysisId must be provided");
     }
-)
+
+    // imageData should be a base64 data URL (e.g., "data:image/jpeg;base64,...")
+    if (!imageData) {
+      throw new Error("imageData (blob as base64 data URL) must be provided");
+    }
+
+    const result = await step.run("ai-analyze-image", async () => {
+      const analysis = await generateObject({
+        model: openai("gpt-4o-mini"), 
+        system: IMAGE_ANALYSIS_SYSTEM_PROMPT,
+        schema: z.object({
+          golden_ratio: z.object({
+            score: z.number(),
+            analysis: z.string(),
+          }),
+          rule_of_thirds: z.object({
+            score: z.number(),
+            analysis: z.string(),
+          }),
+          lighting: z.object({
+            score: z.number(),
+            analysis: z.string(),
+          }),
+          color_balance: z.object({
+            score: z.number(),
+            analysis: z.string(),
+          }),
+          focus_depth: z.object({
+            score: z.number(),
+            analysis: z.string(),
+          }),
+          overall: z.object({
+            score: z.number(),
+            summary: z.string(),
+            improvements: z.array(z.string()),
+          }),
+        }) satisfies z.ZodType<ImageAnalysisResult>,
+        messages: [
+          {
+            role: "user" as const,
+            content: [
+              { type: "text" as const, text: userPrompt ?? "Analyze this image for composition and balance." },
+              { type: "image" as const, image: imageData },
+            ],
+          },
+        ],
+      });
+
+      return analysis.object;
+    });
+
+    // Save result to database
+    await step.run("save-analysis-result", async () => {
+      await prisma.imageAnalysis.update({
+        where: { id: analysisId },
+        data: {
+          status: 'completed',
+          result: result as any, // Store as JSON
+        },
+      });
+    });
+
+    return { success: true, result };
+  }
+);
+

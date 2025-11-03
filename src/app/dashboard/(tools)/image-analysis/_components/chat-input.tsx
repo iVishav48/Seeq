@@ -1,14 +1,16 @@
 "use client"
 
 import type React from "react"
-
 import { useForm } from "react-hook-form"
 import { useState, useRef } from "react"
-import { Settings2, Lightbulb, Paperclip, Send, X } from "lucide-react"
+import { Lightbulb, Paperclip, Send, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
+import { useTRPC } from "@/trpc/client"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 interface ChatInputFormValues {
   message: string
@@ -16,9 +18,27 @@ interface ChatInputFormValues {
 }
 
 export function ChatInput() {
+
+  const trpc = useTRPC();
+
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  
+  const analyseImage = useMutation(
+    trpc.imageAnalyse.analyseImage.mutationOptions({
+      onError:(err)=>{
+        toast.error(err.message ?? "Failed to analyse")
+      },
+      onSuccess :(data)=>{
+        toast.success("Image analysis Job created", {
+          closeButton: true,
+          description: data.blobUrl ? "Image uploaded to storage" : undefined,
+        })
+        // The page will automatically refetch due to polling
+      }
+    })
+  )
 
   const form = useForm<ChatInputFormValues>({
     defaultValues: {
@@ -27,19 +47,24 @@ export function ChatInput() {
     },
   })
 
-  const onSubmit = (data: ChatInputFormValues) => {
-    console.log("Submitting:", {
-      message: data.message,
-      image: data.image,
-    })
+  const onSubmit = async (data: ChatInputFormValues) => {
+    if (!imagePreview) {
+      toast.error("No image selected")
+      return
+    }
 
-    // Handle your submit logic here
-    // You can send both the image and message to your API
-    // Example: await analyzeImage(data.image, data.message)
+    try {
+      analyseImage.mutate({
+        imageData: imagePreview,
+        userPrompt: data.message || undefined,
+        fileName: fileName || undefined,
+      })
 
-    // Reset form and clear image
-    form.reset()
-    clearImage()
+      form.reset()
+      clearImage()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to analyze image")
+    }
   }
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {

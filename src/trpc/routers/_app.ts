@@ -1,11 +1,8 @@
-import { protecedProcedure, createTRPCRouter } from '../init';
-import prisma from '@/lib/prisma';
+import { aiRouter } from '@/features/tools/server/router';
+import { createTRPCRouter } from '../init';
 
 export const appRouter = createTRPCRouter({
-    getUsers: protecedProcedure.query(async () => {
-        const users = await prisma.user.findMany();
-        return users;
-    }),
+    imageAnalyse : aiRouter
 });
 
 export type AppRouter = typeof appRouter;
