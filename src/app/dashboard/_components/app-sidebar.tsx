@@ -30,8 +30,8 @@ const navMain = [
       isActive: true,
       items: [
         {
-          title: "Insight",
-          url: "/insight",
+          title: "Golden Ratio",
+          url: "/dashboard/golden-ratio",
         },
       ],
     },
@@ -78,9 +78,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
+              <a href="/dashboard">
                 <AnvilIcon className="size-5!" />
-                <span className="text-base font-semibold">Project Name {/* TODO: add project name */}</span>
+                <span className="text-base font-semibold uppercase">InSight</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
