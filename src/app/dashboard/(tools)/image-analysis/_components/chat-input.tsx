@@ -17,13 +17,19 @@ interface ChatInputFormValues {
   image: File | null
 }
 
-export function ChatInput() {
+interface ChatInputProps {
+  onAnalysisComplete?: (result: any, blobUrl: string, prompt?: string) => void
+  onAnalysisStart?: () => void
+}
+
+export function ChatInput({ onAnalysisComplete, onAnalysisStart }: ChatInputProps) {
 
   const trpc = useTRPC();
 
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const currentPromptRef = useRef<string | undefined>(undefined)
   
   const analyseImage = useMutation(
     trpc.imageAnalyse.analyseImage.mutationOptions({
@@ -31,11 +37,13 @@ export function ChatInput() {
         toast.error(err.message ?? "Failed to analyse")
       },
       onSuccess :(data)=>{
-        toast.success("Image analysis Job created", {
+        toast.success("Image analysis completed", {
           closeButton: true,
-          description: data.blobUrl ? "Image uploaded to storage" : undefined,
         })
-        // The page will automatically refetch due to polling
+        // Pass result to parent component
+        if (onAnalysisComplete && data.result) {
+          onAnalysisComplete(data.result, data.blobUrl, currentPromptRef.current)
+        }
       }
     })
   )
@@ -54,9 +62,15 @@ export function ChatInput() {
     }
 
     try {
+      // Call onAnalysisStart callback
+      onAnalysisStart?.()
+      
+      const userPrompt = data.message || undefined
+      currentPromptRef.current = userPrompt
+      
       analyseImage.mutate({
         imageData: imagePreview,
-        userPrompt: data.message || undefined,
+        userPrompt,
         fileName: fileName || undefined,
       })
 
