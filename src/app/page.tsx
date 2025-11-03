@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Hero from "./_components/hero";
 import AboutSection from "./_components/about";
 import FeaturesSection from "./_components/features";
@@ -13,3 +14,12 @@ export default function Home() {
     </main>
   );
 }
+=======
+export default function Home() {
+    return (
+        <div>
+            <h1>Landing Page</h1>
+        </div>
+    )
+}
+>>>>>>> main
