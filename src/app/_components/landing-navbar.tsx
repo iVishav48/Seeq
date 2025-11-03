@@ -7,7 +7,7 @@ const navItems = [
   { href: "#", label: "Home" },
   { href: "#about", label: "About" },
   { href: "#features", label: "Features" },
-  { href: "/login", label: "Login" },
+  { href: "/dashboard", label: "Login" },
 ];
 
 export default function LandingNavbar() {
