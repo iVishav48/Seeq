@@ -28,11 +28,11 @@ export default function Hero() {
   const demo = useMagnetic();
 
   return (
-    <section className="relative flex min-h-[92vh] w-full items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <LandingNavbar />
       <BackgroundCanvas />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 pt-28 text-center">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center text-center">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,13 +40,13 @@ export default function Hero() {
           className="w-full"
         >
           <TypewriterEffectSmooth
-            className="mx-auto flex justify-center text-4xl sm:text-6xl"
+            className="mx-auto flex justify-center"
             cursorClassName="bg-yellow-400"
             words={[
-              { text: "Where", className: "bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-600 bg-clip-text text-transparent" },
-              { text: "Art", className: "bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-600 bg-clip-text text-transparent" },
-              { text: "Meets", className: "bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-600 bg-clip-text text-transparent" },
-              { text: "Algorithm", className: "bg-gradient-to-b from-yellow-200 via-yellow-400 to-yellow-600 bg-clip-text text-transparent" },
+              { text: "Where", className: "text-xl sm:text-6xl" },
+              { text: "Art" , className: "text-xl sm:text-6xl" },
+              { text: "Meets" , className: "text-xl sm:text-6xl" },
+              { text: "Algorithm" , className: "text-xl sm:text-6xl" },
             ]}
           />
         </motion.div>
@@ -55,7 +55,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
-          className="mt-4 max-w-2xl text-balance text-base text-white/80 sm:text-lg"
+          className="max-w-2xl text-balance text-sm md:text-xl text-muted-foreground"
         >
           Discover the hidden symmetry within visual chaos.
         </motion.p>
@@ -70,16 +70,16 @@ export default function Hero() {
             ref={analyze.ref}
             onMouseMove={analyze.onMouseMove}
             onMouseLeave={analyze.onMouseLeave}
-            className="group relative rounded-full bg-gradient-to-r from-yellow-500 to-yellow-400 px-6 py-3 text-sm font-semibold text-black shadow-[0_0_40px_rgba(250,204,21,0.35)] transition-transform will-change-transform"
+            className="group relative rounded-full bg-gradient-to-r from-yellow-500 to-yellow-400 px-4 py-2 text-sm font-semibold text-black shadow-[0_0_40px_rgba(250,204,21,0.35)] transition-transform will-change-transform"
           >
-            <span className="relative z-10">Analyze Image</span>
+            <a href="/dashboard" className="relative z-10">Analyze Image</a>
             <span className="absolute inset-0 -z-0 rounded-full bg-yellow-300/40 blur-xl transition-opacity group-hover:opacity-90" />
           </button>
           <button
             ref={demo.ref}
             onMouseMove={demo.onMouseMove}
             onMouseLeave={demo.onMouseLeave}
-            className="group relative rounded-full border border-yellow-400/40 bg-white/5 px-6 py-3 text-sm font-semibold text-yellow-200 backdrop-blur-lg transition-transform hover:border-yellow-300"
+            className="group relative rounded-full border border-yellow-400/40 bg-white/5 px-4 py-2 text-sm font-semibold text-yellow-200 backdrop-blur-lg transition-transform hover:border-yellow-300"
           >
             <span className="relative z-10">Explore Demo</span>
             <span className="absolute inset-0 -z-0 rounded-full bg-yellow-100/10 blur-xl transition-opacity group-hover:opacity-80" />

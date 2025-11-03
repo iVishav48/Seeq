@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ const navItems = [
   { href: "#", label: "Home" },
   { href: "#about", label: "About" },
   { href: "#features", label: "Features" },
-  { href: "/dashboard", label: "Login" },
+  { href: "/dashboard", label: "Sign In" },
 ];
 
 export default function LandingNavbar() {
@@ -62,10 +62,10 @@ export default function LandingNavbar() {
 
           <div className="md:hidden">
             <a
-              href="#features"
+              href="/dashboard"
               className="rounded-full bg-gradient-to-r from-yellow-500/90 to-yellow-400/90 px-4 py-2 text-xs font-medium text-black shadow-[0_0_24px_rgba(250,204,21,0.35)]"
             >
-              Explore
+             Sign In
             </a>
           </div>
         </div>
