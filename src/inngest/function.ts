@@ -3,19 +3,16 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { inngest } from "./client";
 import { IMAGE_ANALYSIS_SYSTEM_PROMPT, type ImageAnalysisResult } from "@/lib/ai/prompts";
-import prisma from "@/lib/prisma";
 
 const openai = createOpenAI();
 
+// Note: This function is kept for potential future async processing
+// Currently, image analysis is done directly in the tRPC mutation
 export const analyzeImageFn = inngest.createFunction(
   { id: "analyze-image" },
   { event: "image/analyze" },
   async ({ event, step }) => {
-    const { analysisId, imageData, userPrompt } = event.data;
-
-    if (!analysisId) {
-      throw new Error("analysisId must be provided");
-    }
+    const { imageData, userPrompt } = event.data;
 
     // imageData should be a base64 data URL (e.g., "data:image/jpeg;base64,...")
     if (!imageData) {
@@ -65,17 +62,6 @@ export const analyzeImageFn = inngest.createFunction(
       });
 
       return analysis.object;
-    });
-
-    // Save result to database
-    await step.run("save-analysis-result", async () => {
-      await prisma.imageAnalysis.update({
-        where: { id: analysisId },
-        data: {
-          status: 'completed',
-          result: result as any, // Store as JSON
-        },
-      });
     });
 
     return { success: true, result };
