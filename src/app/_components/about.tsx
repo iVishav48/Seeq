@@ -25,9 +25,16 @@ export default function AboutSection() {
         <div className="relative">
           <div className="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-tr from-yellow-500/10 via-yellow-400/5 to-transparent blur-2xl" />
           <div className="aspect-[1.618/1] w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-black via-zinc-900 to-black p-0.5">
-            <div className="h-full w-full rounded-[calc(theme(borderRadius.3xl)-2px)] bg-gradient-to-br from-zinc-950 to-zinc-900" />
+            <div className="h-full w-full rounded-[calc(theme(borderRadius.3xl)-2px)] bg-gradient-to-br from-zinc-950 to-zinc-900 flex items-center justify-center">
+              <img
+                src="/spiral.gif"
+                alt="Golden Ratio Illustration"
+                className="h-full w-full object-cover rounded-[calc(theme(borderRadius.3xl)-2px)]"
+              />
+            </div>
           </div>
         </div>
+
       </motion.div>
     </section>
   );

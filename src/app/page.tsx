@@ -1,8 +1,10 @@
 import Hero from "./_components/hero";
 import AboutSection from "./_components/about";
 import FeaturesSection from "./_components/features";
-import Footer from "./_components/footer";
 import TeamSection from "./_components/team";
+import { SiteFooter } from "./_components/mainfooter";
+import { Testimonials } from "./_components/testimonials";
+
 
 export default function Home() {
   return (
@@ -10,8 +12,9 @@ export default function Home() {
       <Hero />
       <AboutSection />
       <FeaturesSection />
+      <Testimonials/>
       <TeamSection />
-      <Footer />
+      <SiteFooter/>
     </main>
   );
 }

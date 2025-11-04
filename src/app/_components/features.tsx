@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Sparkles, Scan } from "lucide-react";
+import { Shield, Sparkles, Scan, Circle, ImageIcon, Camera, LineChart } from "lucide-react";
 
 const features = [
   {
@@ -18,6 +17,24 @@ const features = [
     icon: Shield,
     title: "Personalized Access",
     desc: "Secure login to save your creations.",
+  },
+];
+
+const coreSteps = [
+  {
+    title: "Upload & Align",
+    description: "Drag in your visual, let InSight frame it with precise golden ratio overlays.",
+    icon: ImageIcon,
+  },
+  {
+    title: "AI Composition Scan",
+    description: "Our engine blends classical proportions with AI heuristics for balanced scoring.",
+    icon: Sparkles,
+  },
+  {
+    title: "Actionable Guidance",
+    description: "Receive tailored crop, layout, and storytelling prompts matched to your medium.",
+    icon: Camera,
   },
 ];
 
@@ -56,7 +73,8 @@ export default function FeaturesSection() {
             </div>
           </motion.div>
         ))}
-      </div>
+    
+            </div>
     </section>
   );
 }

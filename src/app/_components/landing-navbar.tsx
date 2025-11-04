@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 const navItems = [
   { href: "#", label: "Home" },
   { href: "#about", label: "About" },
   { href: "#features", label: "Features" },
+  { href: "#team", label: "Team" },
   { href: "/dashboard", label: "Sign In" },
 ];
 
@@ -39,7 +41,7 @@ export default function LandingNavbar() {
           }`}
         >
           <Link href="#" className="group inline-flex items-center gap-2">
-            <span className="text-sm tracking-widest text-yellow-400/90">●</span>
+            <Image src="/logo.png" alt="logo" width={32} height={32} />
             <span className="text-base font-semibold text-white">
               In<span className="text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.45)]">Sight</span>
             </span>
