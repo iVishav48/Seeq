@@ -2,10 +2,10 @@
 
 import * as React from "react"
 import {
-  AnvilIcon,
   Settings2,
   SquareTerminal,
 } from "lucide-react"
+import Image from "next/image";
 
 
 import {
@@ -79,7 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <a href="/dashboard">
-                <AnvilIcon className="size-5!" />
+                <Image src="/logo.png" alt="logo" width={32} height={32} />
                 <span className="text-base font-semibold uppercase">InSight</span>
               </a>
             </SidebarMenuButton>

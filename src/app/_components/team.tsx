@@ -50,12 +50,12 @@ export default function TeamSection() {
       skillB: "Experienced Designer",
       icon: "code",
       image:
-        "https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1280&auto=format&fit=crop",
+        "/soh.png",
     },
     {
       name: "Harkirtan Singh",
       skillA: "Documentation Lead",
-      skillB: "AI Research Lead",
+      skillB: "Community Manager",
       icon: "users",
       image:
         "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1280&auto=format&fit=crop",
@@ -94,12 +94,12 @@ export default function TeamSection() {
                   {/* subtle golden tint overlay */}
                   <div className="absolute inset-0 rounded-[16px] bg-gradient-to-t from-yellow-500/12 via-transparent to-transparent" />
                   <div className="absolute inset-0 rounded-[16px] ring-1 ring-inset ring-yellow-400/15" />
-                  <div className="pointer-events-none absolute inset-0 flex items-end justify-between p-4">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3 py-1 text-xs text-white/90 backdrop-blur">
+                  <div className="pointer-events-none absolute inset-0 flex items-end justify-center gap-2 p-4">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur">
                       {iconMap[m.icon]}
                       <span>{m.skillA}</span>
                     </div>
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3 py-1 text-xs text-white/90 backdrop-blur">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur">
                       {iconMap[m.icon]}
                       <span>{m.skillB}</span>
                     </div>
