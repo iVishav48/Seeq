@@ -2,9 +2,11 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "./_components/app-sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { BredCrumbHeader } from "./_components/bredcrumbheader";
+import { requireAuth } from "@/lib/auth-utils";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-    return (
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  await requireAuth();  
+  return (
         <SidebarProvider>
         <AppSidebar />
         <SidebarInset>

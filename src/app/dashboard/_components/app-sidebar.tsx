@@ -30,8 +30,8 @@ const navMain = [
       isActive: true,
       items: [
         {
-          title: "Golden Ratio",
-          url: "/dashboard/golden-ratio",
+          title: "Image analysis",
+          url: "/dashboard/image-analysis",
         },
       ],
     },
